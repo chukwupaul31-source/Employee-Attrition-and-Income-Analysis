@@ -154,21 +154,12 @@ Window functions (LEAD, LAG, RANK) are powerful for comparing employee progress 
 
 HR can use these insights to improve promotion, retention, and salary fairness.
 
-🧾 Business Value
+ Business Value
 
-✅ Identify top-performing departments and employees
-✅ Highlight pay gaps and equity issues
-✅ Optimize HR decision-making with salary and attrition data
-✅ Build a data-driven foundation for employee retention strategies
-
-
-📎 Author
-
-Chukwu Paul
-📧 chukwupaul31@gmail.com
-🔗 LinkedIn
-📂 GitHub Project Link (https://github.com/chukwupaul31-source)
-
+-  Identify top-performing departments and employees
+-  Highlight pay gaps and equity issues
+-  Optimize HR decision-making with salary and attrition data
+- Build a data-driven foundation for employee retention strategies
 
 
 
