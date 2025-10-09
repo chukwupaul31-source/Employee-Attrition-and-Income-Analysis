@@ -1,7 +1,6 @@
 👨‍💼 HR Analytics Project Using SQL
 
 🎯 Project Overview
-
 This project focuses on analyzing employee attrition, performance, and income patterns using SQL.
 The dataset used is wa_fn-usec_-hr-employee-attrition, which contains HR data such as employee demographics, education, department, income, and attrition status.
 
