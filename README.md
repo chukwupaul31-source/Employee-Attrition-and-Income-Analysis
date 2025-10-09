@@ -14,3 +14,6 @@ Excel – for basic data review
 Power BI (optional) – for visualization of final insights
 
 GitHub – for project hosting and portfolio display
+
+NOTE I SAVED AND UPLOAD THE QUERY USING JUPYTER NOTEBOOK[CLICK THE ABOVE LINK IN THE BRACKET TO VIEW THE QUERY] 
+(https://github.com/chukwupaul31-source/HR-Analytics-with-SQL-/blob/main/HR%20Analytics%20SQL%20Project.ipynb)
