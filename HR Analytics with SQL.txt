@@ -1,0 +1,176 @@
+Retrieving Al records from my Data set for Exploration and understanding of of Available columns
+
+SELECT *
+ FROM business_db.`wa_fn-usec_-hr-employee-attrition`;
+
+Filter Employees Based on Attrition and Education
+
+SELECT * FROM `wa_fn-usec_-hr-employee-attrition`
+WHERE Attrition NOT IN ("YES")
+OR Department NOT IN ("Research & Development", "Sales")
+AND Education >"3"
+ORDER BY Department ASC;
+
+
+3 Analyzing Job Roles and Performance
+
+SELECT 
+jobRole,
+YearsAtCompany,
+YearsWithCurrManager,
+TotalWorkingYears,
+PerformanceRating,
+NumCompaniesWorked
+FROM `wa_fn-usec_-hr-employee-attrition`
+WHERE  NOT JobRole IN ('Sales Executive', 'Research Scientist')
+OR YearsAtCompany < 4
+OR TotalWorkingYears > 5
+AND PerformanceRating <=3
+ORDER BY PerformanceRating, TotalWorkingYears DESC;
+
+4 Comparing Total, Average, and Maximum Income Per job Role using Common Table Expression (CTE)
+
+WITH `wa_fn-usec_-hr-employee-attrition` AS (
+SELECT jobRole,
+SUM(MonthlyIncome) AS Total_Income,
+MAX(MonthlyIncome) AS maximum_Income,
+AVG(MonthlyIncome) AS Avg_Income
+FROM `wa_fn-usec_-hr-employee-attrition`
+GROUP BY JobRole
+)
+SELECT * FROM `wa_fn-usec_-hr-employee-attrition`
+WHERE maximum_Income > 4000
+ORDER BY maximum_Income DESC
+LIMIT 10;
+
+5 Maximum Department Income with Monthly Filter
+
+SELECT Department, MAX(MonthlyIncome) AS Total_Income
+FROM `wa_fn-usec_-hr-employee-attrition`
+WHERE MonthlyRate >23159 AND 16632
+GROUP BY Department
+HAVING SUM(MonthlyIncome) > 7000
+
+6 Finding Employees with Minimun Income
+
+SELECT 
+ï»¿Age,
+Attrition,
+Department,
+Education,
+MonthlyIncome
+FROM `wa_fn-usec_-hr-employee-attrition`
+WHERE MonthlyIncome =(
+SELECT MIN(MonthlyIncome) AS minimum_Income
+FROM `wa_fn-usec_-hr-employee-attrition`
+);
+
+7 Adding Income Summary (MAX, MIN, AVG) for All Employees
+
+SELECT 
+ï»¿Age,
+Attrition,
+Department,
+Education,
+MonthlyIncome,
+(SELECT MAX(MonthlyIncome) FROM `wa_fn-usec_-hr-employee-attrition`) AS Maximum_Income,
+(SELECT MIN(MonthlyIncome) FROM `wa_fn-usec_-hr-employee-attrition`) AS Minimum_Income,
+(SELECT AVG(MonthlyIncome) FROM `wa_fn-usec_-hr-employee-attrition`) AS Avg_Income
+FROM `wa_fn-usec_-hr-employee-attrition`
+ORDER BY Maximum_Income,Minimum_Income ASC;
+
+8 Employee Income Change Tracking Using (LEAD Function)
+
+SELECT 
+ï»¿Age,
+Attrition,
+Department,
+Education,
+MonthlyIncome,
+LEAD (MonthlyIncome) OVER (PARTITION BY ï»¿Age ORDER BY Education) AS Next_score,
+CASE
+WHEN LEAD (MonthlyIncome) OVER (PARTITION BY ï»¿Age ORDER BY Education) >  MonthlyIncome THEN 'Improved'
+WHEN LEAD (MonthlyIncome) OVER (PARTITION BY ï»¿Age ORDER BY Education) < MonthlyIncome  THEN 'Declined'
+WHEN LEAD (MonthlyIncome) OVER (PARTITION BY ï»¿Age ORDER BY Education) = MonthlyIncome  THEN 'Poor' 
+ELSE 'Poor_Record'
+END AS 'Performance_Trend'
+FROM `wa_fn-usec_-hr-employee-attrition`
+
+9 Ranking Employees by Monthly Income
+
+SELECT 
+ï»¿Age,
+Attrition,
+Department,
+Education,
+MonthlyIncome,
+RANK() OVER (ORDER BY MonthlyIncome DESC) AS Income_Rank
+FROM `wa_fn-usec_-hr-employee-attrition`
+
+10 Making Classification By Income Level
+
+SELECT Attrition,
+Department,
+ IF(MonthlyIncome > 20000, 'High', 'Low') AS Income_Measure
+FROM `wa_fn-usec_-hr-employee-attrition`
+
+11 Analyzing Past Performance Using (LAG Function)
+
+SELECT
+  Age,
+  Attrition,
+  Department,
+  Education,
+  MonthlyIncome,
+  LAG(MonthlyIncome) OVER (PARTITION BY Education ORDER BY Department) AS Previous_Income,
+  CASE
+    WHEN LAG(MonthlyIncome) OVER (PARTITION BY Education ORDER BY Department) > MonthlyIncome THEN 'Improved'
+    WHEN LAG(MonthlyIncome) OVER (PARTITION BY Education ORDER BY Department) < MonthlyIncome THEN 'Declined'
+    WHEN LAG(MonthlyIncome) OVER (PARTITION BY Education ORDER BY Department) = MonthlyIncome THEN 'Stable'
+    ELSE 'Unknown'
+  END AS Performance_Trend
+FROM wa_fn-usec_-hr-employee-attrition;
+
+12 Final Ranking And Sorting
+
+SELECT 
+  Age,
+  Attrition,
+  Department,
+  Education,
+  MonthlyIncome,
+  RANK() OVER (ORDER BY MonthlyIncome DESC) AS Income_Ranking,
+  IF(MonthlyIncome > 7000, 'High', 'Low') AS Income_Sorting
+FROM wa_fn-usec_-hr-employee-attrition;
+
+
+📊 Key Insights
+
+Top earners are found mostly in Research and Management roles.
+
+Employees with higher education levels generally earn more and have lower attrition.
+
+Window functions (LEAD, LAG, RANK) are powerful for comparing employee progress and compensation trends.
+
+HR can use these insights to improve promotion, retention, and salary fairness.
+
+🧾 Business Value
+
+✅ Identify top-performing departments and employees
+✅ Highlight pay gaps and equity issues
+✅ Optimize HR decision-making with salary and attrition data
+✅ Build a data-driven foundation for employee retention strategies
+
+
+📎 Author
+
+Chukwu Paul
+📧 chukwupaul31@gmail.com
+🔗 LinkedIn
+📂 GitHub Project Link (https://github.com/chukwupaul31-source)
+
+
+
+
+
+
